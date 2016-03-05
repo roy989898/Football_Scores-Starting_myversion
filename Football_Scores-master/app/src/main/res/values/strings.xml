@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name ="list_view_content_discription" >The home is %1$s .The away is  %2$s,the score is %3$s,the time is %4$s </string>
+    <string name ="list_view_content_share_button_discription" >the share button of %1$s.</string>
     <string name="app_name">Football Scores</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
