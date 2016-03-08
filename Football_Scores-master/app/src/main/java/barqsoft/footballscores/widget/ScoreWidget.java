@@ -17,7 +17,7 @@ public class ScoreWidget extends AppWidgetProvider {
 
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.score_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
 
 

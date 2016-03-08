@@ -30,3 +30,9 @@ Date fragmentdate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
             viewFragments[i] = new MainScreenFragment();
             viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
+			
+			
+//query:
+
+return new CursorLoader(getActivity(),DatabaseContract.scores_table.buildScoreWithDate(),
+                null,null,fragmentdate,null);
