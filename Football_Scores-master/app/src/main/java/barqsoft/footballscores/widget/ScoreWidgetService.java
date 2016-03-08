@@ -66,8 +66,10 @@ public class ScoreWidgetService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
-
+            if (mcursor != null)
+                mcursor = null;
         }
+
 
         @Override
         public int getCount() {

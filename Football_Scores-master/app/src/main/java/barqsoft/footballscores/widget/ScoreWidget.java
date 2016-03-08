@@ -2,6 +2,7 @@ package barqsoft.footballscores.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import barqsoft.footballscores.R;
  * Implementation of App Widget functionality.
  */
 public class ScoreWidget extends AppWidgetProvider {
+    final static public String BRODCAST_MESSAGE = "barqsoft.footballscores.WIDGET_UPDATE_ACTION";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -34,6 +36,14 @@ public class ScoreWidget extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        AppWidgetManager awm = AppWidgetManager.getInstance(context);
+        int[] ids = awm.getAppWidgetIds(new ComponentName(context, AppWidgetProvider.class));
+        onUpdate(context, awm, ids);
     }
 
     @Override
