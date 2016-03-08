@@ -3,6 +3,9 @@ package barqsoft.footballscores.widget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import barqsoft.footballscores.R;
@@ -19,8 +22,14 @@ public class ScoreWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
-
-
+        //set the array adapter
+        Intent intent = new Intent(context, ScoreWidgetService.class);
+        // Add the app widget ID to the intent extras.
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            views.setRemoteAdapter(R.id.widget_listview_score, intent);
+        }
 
 
         // Instruct the widget manager to update the widget
