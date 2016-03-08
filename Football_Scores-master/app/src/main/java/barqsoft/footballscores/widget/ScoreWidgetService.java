@@ -77,6 +77,7 @@ public class ScoreWidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
             RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_listview_iteam);
+            mcursor.moveToPosition(position);
             bindData(views);
             return views;
         }
