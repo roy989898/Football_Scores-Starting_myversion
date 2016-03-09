@@ -1,5 +1,6 @@
 package barqsoft.footballscores.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.RemoteViews;
 
+import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
 
 /**
@@ -23,14 +25,19 @@ public class ScoreWidget extends AppWidgetProvider {
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
+        //set the click action
+
+        Intent intent=new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent=PendingIntent.getActivity(context,0,intent,0);
+        views.setOnClickPendingIntent(R.id.widget_bar,pendingIntent);
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
         //set the array adapter
-        Intent intent = new Intent(context, ScoreWidgetService.class);
+        Intent brodcastIntent = new Intent(context, ScoreWidgetService.class);
         // Add the app widget ID to the intent extras.
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        brodcastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        brodcastIntent.setData(Uri.parse(brodcastIntent.toUri(Intent.URI_INTENT_SCHEME)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            views.setRemoteAdapter(R.id.widget_listview_score, intent);
+            views.setRemoteAdapter(R.id.widget_listview_score, brodcastIntent);
         }
 
 
