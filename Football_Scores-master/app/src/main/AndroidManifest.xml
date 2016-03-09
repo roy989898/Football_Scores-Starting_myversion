@@ -59,7 +59,15 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="barqsoft.footballscores.LEFT_ACTION"/>
+                <action android:name="barqsoft.footballscores.LEFT_ACTION" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".widget.WidgetRightButtonReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="barqsoft.footballscores.RIGHT_ACTION" />
             </intent-filter>
         </receiver>
     </application>
