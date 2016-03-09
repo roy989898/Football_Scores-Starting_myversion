@@ -24,14 +24,16 @@ public class ScoreWidgetService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
         //it is becasue today,i =2
-        int i = 2;
+        int i = 1;
         String[] fragmentdates = new String[1];
         Date fragmentdate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
         fragmentdates[0] = mformat.format(fragmentdate);
 
+//        Cursor cursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
         Cursor cursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
         return new ScoreWidgetListAdapter(getApplicationContext(), cursor);
+
     }
 
     private class ScoreWidgetListAdapter implements RemoteViewsService.RemoteViewsFactory {

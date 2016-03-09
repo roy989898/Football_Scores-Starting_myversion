@@ -14,29 +14,45 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/detail_widget_bar"
             android:background="@color/green04"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/widget_im_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:src="@drawable/left_arrow" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:src="@drawable/ic_launcher" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/widget_title_lrft_margin"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_vertical"
-                android:textColor="@color/white"
                 android:text="Today"
-                android:id="@+id/textView" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/widget_im_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:src="@drawable/right_arrow" />
 
         </LinearLayout>
 
         <ListView
+            android:id="@+id/widget_listview_score"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/widget_listview_score" />
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
