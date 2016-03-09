@@ -38,9 +38,12 @@ public class ScoreWidget extends AppWidgetProvider {
         brodcastIntent.setData(Uri.parse(brodcastIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
         //TODO set the left button
-//        views.setOnClickPendingIntent(R.id.widget_im_left,);
+        Intent leftintent=new Intent(WidgetLeftButtonReceiver.WidgetLeftButtonReceiver_ACTION);
+        PendingIntent leftpendingIntent=PendingIntent.getBroadcast(context,0,leftintent,0);
+        views.setOnClickPendingIntent(R.id.widget_im_left,leftpendingIntent);
 
         //TODO set the right bytton
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             views.setRemoteAdapter(R.id.widget_listview_score, brodcastIntent);
         }

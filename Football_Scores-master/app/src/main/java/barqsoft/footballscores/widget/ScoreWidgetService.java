@@ -3,6 +3,7 @@ package barqsoft.footballscores.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.widget.RemoteViews;
@@ -24,7 +25,11 @@ public class ScoreWidgetService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
         //it is becasue today,i =2
-        int i = 1;
+        int i = 2;
+        Context context=getApplicationContext();
+        SharedPreferences sp = context.getSharedPreferences(getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+
+
         String[] fragmentdates = new String[1];
         Date fragmentdate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
@@ -32,7 +37,7 @@ public class ScoreWidgetService extends RemoteViewsService {
 
 //        Cursor cursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
         Cursor cursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
-        return new ScoreWidgetListAdapter(getApplicationContext(), cursor);
+        return new ScoreWidgetListAdapter(context, cursor);
 
     }
 
