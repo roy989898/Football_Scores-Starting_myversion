@@ -80,9 +80,8 @@ public class ScoreWidget extends AppWidgetProvider {
         //get the day that we want to show 0-4
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
         //default is 2(today)
-        int day = sp.getInt(context.getString(R.string.sharedpreference_day_key) + appWidgetId, 2);
 
-        return day;
+        return sp.getInt(context.getString(R.string.sharedpreference_day_key) + appWidgetId, 2);
     }
 
     private static void putTheDay(Context context, int appWidgetId, int day) {
