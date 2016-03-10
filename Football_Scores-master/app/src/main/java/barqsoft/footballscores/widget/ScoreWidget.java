@@ -46,6 +46,7 @@ public class ScoreWidget extends AppWidgetProvider {
 
         //set the day number that want  to show in the widget,show ScoreWidgetService can know what day to show
         int day = getTheDay(context, appWidgetId);
+        putTheDay(context,appWidgetId,day);
 //        brodcastIntent.putExtra(context.getString(R.string.brodcastIntent_get_day_key),day);
         Log.d("onReceive_ScoreWidget", day + "");
 
@@ -84,11 +85,20 @@ public class ScoreWidget extends AppWidgetProvider {
         return day;
     }
 
+    private static void putTheDay(Context context, int appWidgetId, int day) {
+        //get the day that we want to show 0-4
+        SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(context.getString(R.string.sharedpreference_day_key) + appWidgetId, day);
+        editor.commit();
+
+    }
+
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-
 
 
         AppWidgetManager awm = AppWidgetManager.getInstance(context);
@@ -110,9 +120,9 @@ public class ScoreWidget extends AppWidgetProvider {
         //only update the bar title in the remoteview
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
         int day = getTheDay(context, id);
-        String datName=getDayName(context, System.currentTimeMillis() + ((day - 2) * 86400000));
-        views.setTextViewText(R.id.widget_textViewDate,datName);
-        awm.partiallyUpdateAppWidget(id,views);
+        String datName = getDayName(context, System.currentTimeMillis() + ((day - 2) * 86400000));
+        views.setTextViewText(R.id.widget_textViewDate, datName);
+        awm.partiallyUpdateAppWidget(id, views);
 
     }
 
