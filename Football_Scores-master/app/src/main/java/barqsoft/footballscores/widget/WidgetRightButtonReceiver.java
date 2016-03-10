@@ -17,16 +17,20 @@ public class WidgetRightButtonReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //get the current day
-        Log.d("widget","Receiver_onReciece");
+
+        Log.d("widget", "Receiver_RonReciece");
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
         int day = sp.getInt(context.getString(R.string.sharedpreference_day_key), 2);
-        day=increaseTheDay(day);
+        day = increaseTheDay(day);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(context.getString(R.string.sharedpreference_day_key),day);
+        editor.putInt(context.getString(R.string.sharedpreference_day_key), day);
         editor.commit();
 
 
+        int wid = intent.getIntExtra(ScoreWidget.APPWIDGEIt_KEY, -10);
+        Log.d("widget", wid + "");
         Intent brodcastIntent = new Intent(ScoreWidget.BRODCAST_MESSAGE);
+        brodcastIntent.putExtra(ScoreWidget.APPWIDGEIt_KEY, wid);
         context.sendBroadcast(brodcastIntent);//send out the brodcast ,ScoreWidget will receive,and load the day from sharedPreference again
 
     }

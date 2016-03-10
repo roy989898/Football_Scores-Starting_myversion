@@ -21,6 +21,7 @@ import barqsoft.footballscores.R;
  */
 public class ScoreWidget extends AppWidgetProvider {
     final static public String BRODCAST_MESSAGE = "barqsoft.footballscores.WIDGET_UPDATE_ACTION";
+    final static public String APPWIDGEIt_KEY = "W_KEY";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -41,7 +42,7 @@ public class ScoreWidget extends AppWidgetProvider {
         brodcastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         brodcastIntent.setData(Uri.parse(brodcastIntent.toUri(Intent.URI_INTENT_SCHEME)));
         //set the day number that want  to show in the widget,show ScoreWidgetService can know what day to show
-        int day= getTheDay(context);
+        int day = getTheDay(context);
 //        brodcastIntent.putExtra(context.getString(R.string.brodcastIntent_get_day_key),day);
         Log.d("onReceive_ScoreWidget", day + "");
 
@@ -53,12 +54,15 @@ public class ScoreWidget extends AppWidgetProvider {
 
         //et the left button
         Intent leftintent = new Intent(WidgetLeftButtonReceiver.WidgetLeftButtonReceiver_ACTION);
-        PendingIntent leftpendingIntent = PendingIntent.getBroadcast(context, 0, leftintent, 0);
+        Log.d("widgetID",appWidgetId+"");
+        leftintent.putExtra(APPWIDGEIt_KEY, appWidgetId);
+        PendingIntent leftpendingIntent = PendingIntent.getBroadcast(context, appWidgetId, leftintent, 0);
         views.setOnClickPendingIntent(R.id.widget_im_left, leftpendingIntent);
 
         // set the right bytton
         Intent rightintent = new Intent(WidgetRightButtonReceiver.WidgetRightButtonReceiver_ACTION);
-        PendingIntent rightpendingIntent = PendingIntent.getBroadcast(context, 0, rightintent, 0);
+        rightintent.putExtra(APPWIDGEIt_KEY, appWidgetId);
+        PendingIntent rightpendingIntent = PendingIntent.getBroadcast(context, appWidgetId, rightintent, 0);
         views.setOnClickPendingIntent(R.id.widget_im_right, rightpendingIntent);
 
 
@@ -85,7 +89,18 @@ public class ScoreWidget extends AppWidgetProvider {
 
 
         AppWidgetManager awm = AppWidgetManager.getInstance(context);
-        int[] ids = awm.getAppWidgetIds(new ComponentName(context, ScoreWidget.class));
+        int id = intent.getIntExtra(ScoreWidget.APPWIDGEIt_KEY, -101);
+        Log.d("widget", "id "+id);
+        int[] ids;
+        if (id == -101) {
+            //the default value,update all
+            ids = awm.getAppWidgetIds(new ComponentName(context, ScoreWidget.class));
+        } else {
+            //only the specific one
+            ids=new int[1];
+            ids[0]=id;
+        }
+
 //        onUpdate(context, awm, ids);
         awm.notifyAppWidgetViewDataChanged(ids, R.id.widget_listview_score);
 
