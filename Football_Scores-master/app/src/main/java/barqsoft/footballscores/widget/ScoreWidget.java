@@ -41,8 +41,9 @@ public class ScoreWidget extends AppWidgetProvider {
         // Add the app widget ID to the intent extras.
         brodcastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         brodcastIntent.setData(Uri.parse(brodcastIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
         //set the day number that want  to show in the widget,show ScoreWidgetService can know what day to show
-        int day = getTheDay(context);
+        int day = getTheDay(context,appWidgetId);
 //        brodcastIntent.putExtra(context.getString(R.string.brodcastIntent_get_day_key),day);
         Log.d("onReceive_ScoreWidget", day + "");
 
@@ -72,11 +73,11 @@ public class ScoreWidget extends AppWidgetProvider {
 
     /*    get the day from the share Preference  that we want to show 0-4
         default is 2(today)*/
-    private static int getTheDay(Context context) {
+    private static int getTheDay(Context context, int appWidgetId) {
         //get the day that we want to show 0-4
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
         //default is 2(today)
-        int day = sp.getInt(context.getString(R.string.sharedpreference_day_key), 2);
+        int day = sp.getInt(context.getString(R.string.sharedpreference_day_key)+appWidgetId, 2);
 
         return day;
     }

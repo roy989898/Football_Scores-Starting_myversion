@@ -1,6 +1,7 @@
 package barqsoft.footballscores.widget;
 
 import android.annotation.TargetApi;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,14 +24,18 @@ import barqsoft.footballscores.Utilies;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScoreWidgetService extends RemoteViewsService {
+    private int appid;
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
         //it is becasue today,i =2
 //        int i = 2;
 //        int i = intent.getIntExtra(getString(R.string.brodcastIntent_get_day_key), 2);
+        appid=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,0);
+        Log.d("onGetViewFactory","appid "+appid+"");
         SharedPreferences sp = this.getSharedPreferences(this.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
-        int i = sp.getInt(this.getString(R.string.sharedpreference_day_key), 2);
+        int i = sp.getInt(this.getString(R.string.sharedpreference_day_key)+appid, 2);
         Log.d("onGetViewFactory", "day" + i);
         Context context = getApplicationContext();
 
@@ -86,7 +91,7 @@ public class ScoreWidgetService extends RemoteViewsService {
             // that calls use our process and permission
             final long identityToken = Binder.clearCallingIdentity();
             SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
-            int i = sp.getInt(context.getString(R.string.sharedpreference_day_key), 2);
+            int i = sp.getInt(context.getString(R.string.sharedpreference_day_key)+appid, 2);
             Log.d("onGetViewFactory", "day" + i);
 
 
