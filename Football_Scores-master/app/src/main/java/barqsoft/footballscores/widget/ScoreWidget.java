@@ -27,7 +27,6 @@ public class ScoreWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
         //set the click action
@@ -43,7 +42,7 @@ public class ScoreWidget extends AppWidgetProvider {
         brodcastIntent.setData(Uri.parse(brodcastIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
         //set the day number that want  to show in the widget,show ScoreWidgetService can know what day to show
-        int day = getTheDay(context,appWidgetId);
+        int day = getTheDay(context, appWidgetId);
 //        brodcastIntent.putExtra(context.getString(R.string.brodcastIntent_get_day_key),day);
         Log.d("onReceive_ScoreWidget", day + "");
 
@@ -55,7 +54,7 @@ public class ScoreWidget extends AppWidgetProvider {
 
         //et the left button
         Intent leftintent = new Intent(WidgetLeftButtonReceiver.WidgetLeftButtonReceiver_ACTION);
-        Log.d("widgetID",appWidgetId+"");
+        Log.d("widgetID", appWidgetId + "");
         leftintent.putExtra(APPWIDGEIt_KEY, appWidgetId);
         PendingIntent leftpendingIntent = PendingIntent.getBroadcast(context, appWidgetId, leftintent, 0);
         views.setOnClickPendingIntent(R.id.widget_im_left, leftpendingIntent);
@@ -77,7 +76,7 @@ public class ScoreWidget extends AppWidgetProvider {
         //get the day that we want to show 0-4
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
         //default is 2(today)
-        int day = sp.getInt(context.getString(R.string.sharedpreference_day_key)+appWidgetId, 2);
+        int day = sp.getInt(context.getString(R.string.sharedpreference_day_key) + appWidgetId, 2);
 
         return day;
     }
@@ -86,24 +85,30 @@ public class ScoreWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        //TODO
+
 
 
         AppWidgetManager awm = AppWidgetManager.getInstance(context);
         int id = intent.getIntExtra(ScoreWidget.APPWIDGEIt_KEY, -101);
-        Log.d("widget", "id "+id);
+        Log.d("widget", "id " + id);
         int[] ids;
         if (id == -101) {
             //the default value,update all
             ids = awm.getAppWidgetIds(new ComponentName(context, ScoreWidget.class));
         } else {
             //only the specific one
-            ids=new int[1];
-            ids[0]=id;
+            ids = new int[1];
+            ids[0] = id;
         }
 
 //        onUpdate(context, awm, ids);
         awm.notifyAppWidgetViewDataChanged(ids, R.id.widget_listview_score);
+
+        //only update the bar
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_score_layout);
+        int day = getTheDay(context, id);
+        views.setTextViewText(R.id.widget_textViewDate,day+"");
+        awm.partiallyUpdateAppWidget(id,views);
 
     }
 
