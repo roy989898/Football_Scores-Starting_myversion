@@ -45,4 +45,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="About">About</string>
+    <string name="before_day">Before_day</string>
+    <string name="next_day">Next day</string>
+    <string name="NULL">null</string>
+    <string name="LOG_TAG" translatable="false">LOG_TAG</string>
+    <string name="onCreate_log" translatable="false">Reached MainActivity onCreate</string>
+    <string name="SimpleDateFormat" translatable="false">yyyy-MM-dd</string>
+    <string name="SimpleDateFormat2" translatable="false">EEEE</string>
+    <string name="save_tag" translatable="false">Save Test</string>
+    <string name="will_save" translatable="false">will save</string>
+    <string name="fragment" translatable="false">fragment:</string>
+    <string name="selected_id" translatable="false">selected id:</string>
+    <string name="Pager_Current" translatable="false">Pager_Current</string>
+    <string name="Selected_match" translatable="false">"Selected_match"</string>
+    <string name="my_main" translatable="false">my_main</string>
+    <string name="will_retrive">will retrive</string>
+    <string name="NULL">null</string>
+
 </resources>
