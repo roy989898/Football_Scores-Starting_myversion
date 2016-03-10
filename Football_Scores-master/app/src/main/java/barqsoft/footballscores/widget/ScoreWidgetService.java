@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Binder;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -25,9 +27,14 @@ public class ScoreWidgetService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
         //it is becasue today,i =2
-        int i = 2;
-        Context context=getApplicationContext();
-        SharedPreferences sp = context.getSharedPreferences(getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+//        int i = 2;
+//        int i = intent.getIntExtra(getString(R.string.brodcastIntent_get_day_key), 2);
+        SharedPreferences sp = this.getSharedPreferences(this.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+        int i = sp.getInt(this.getString(R.string.sharedpreference_day_key), 2);
+        Log.d("onGetViewFactory", "day" + i);
+        Context context = getApplicationContext();
+
+//        SharedPreferences sp = context.getSharedPreferences(getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
 
 
         String[] fragmentdates = new String[1];
@@ -68,6 +75,32 @@ public class ScoreWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
+            Log.d("widget","onDataSetChanged");
+            if (mcursor != null) {
+                mcursor.close();
+            }
+            Context context = getApplicationContext();
+            // This method is called by the app hosting the widget (e.g., the launcher)
+            // However, our ContentProvider is not exported so it doesn't have access to the
+            // data. Therefore we need to clear (and finally restore) the calling identity so
+            // that calls use our process and permission
+            final long identityToken = Binder.clearCallingIdentity();
+            SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+            int i = sp.getInt(context.getString(R.string.sharedpreference_day_key), 2);
+            Log.d("onGetViewFactory", "day" + i);
+
+
+//        SharedPreferences sp = context.getSharedPreferences(getString(R.string.sharedpreference_name), Context.MODE_PRIVATE);
+
+
+            String[] fragmentdates = new String[1];
+            Date fragmentdate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
+            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+            fragmentdates[0] = mformat.format(fragmentdate);
+
+//        Cursor cursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
+            mcursor = getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, fragmentdates, null);
+            Binder.restoreCallingIdentity(identityToken);
 
         }
 
